@@ -1,0 +1,116 @@
+﻿<style>
+    tr.group-header td {
+        background: #eee;
+    }
+
+    .group-name {
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+
+    .group-count {
+        color: #999;
+    }
+
+    .group-hidden {
+        display: none;
+    }
+
+    .group-header, .group-header td {
+        user-select: none;
+        -moz-user-select: none;
+    }
+    /* collapsed arrow */
+    tr.group-header td i {
+        display: inline-block;
+        width: 0;
+        height: 0;
+        border-top: 4px solid transparent;
+        border-bottom: 4px solid #888;
+        border-right: 4px solid #888;
+        border-left: 4px solid transparent;
+        margin-right: 7px;
+        user-select: none;
+        -moz-user-select: none;
+    }
+
+    tr.group-header.collapsed td i {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        border-left: 5px solid #888;
+        border-right: 0;
+        margin-right: 10px;
+    }
+</style>
+
+<div ng-app="app" ng-controller="controller">
+    <table st-table="rowCollection" class="table table-striped">
+        <thead>
+            <tr>
+                <th>first name</th>
+                <th>last name</th>
+                <th>birth date</th>
+                <th>balance</th>
+                <th>email</th>
+            </tr>
+        </thead>
+        <tbody ng-repeat="group in groups">
+            <tr class="group-header">
+                <td colspan="5" ng-click="toggleGroup(group)">
+                    <i></i>
+                    <span class="group-name">{{group.name}}</span>
+                    <span class="group-count">({{group.data.length}})</span>
+                </td>
+            </tr>
+            <tr ng-repeat="row in group.data" ng-hide="group.visible" ng-repeat-end>
+                <td>{{row.firstName}}</td>
+                <td>{{row.lastName}}</td>
+                <td>{{row.birthDate}}</td>
+                <td>{{row.balance}}</td>
+                <td>{{row.email}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script src="~/Scripts/angular.js"></script>
+<script src="~/Scripts/smart-table.js"></script>
+<script>
+    var app = angular.module('app', ['smart-table']);
+    app.controller('controller', ['$scope', function (scope) {
+        scope.groups = [
+            {
+                name: 'Group 1', data: [
+                    { firstName: 'Laurent', lastName: 'Renard', birthDate: new Date('1987-05-21'), balance: 102, email: 'whatever@gmail.com' },
+                    { firstName: 'Blandine', lastName: 'Faivre', birthDate: new Date('1987-04-25'), balance: -2323.22, email: 'oufblandou@gmail.com' },
+                    { firstName: 'Francoise', lastName: 'Frere', birthDate: new Date('1955-08-27'), balance: 42343, email: 'raymondef@gmail.com' }
+                ]
+            },
+            {
+                name: 'Group 2', data: [
+                    { firstName: 'Laurent', lastName: 'Harry', birthDate: new Date('1987-05-21'), balance: 102, email: 'whatever@gmail.com' },
+                    { firstName: 'Blandine', lastName: 'Faivre', birthDate: new Date('1987-04-25'), balance: -2323.22, email: 'oufblandou@gmail.com' },
+                    { firstName: 'Francoise', lastName: 'Frere', birthDate: new Date('1955-08-27'), balance: 42343, email: 'raymondef@gmail.com' }
+                ]
+            },
+            {
+                name: 'Group 3', data: [
+                    { firstName: 'Laurent', lastName: 'Denise', birthDate: new Date('1987-05-21'), balance: 102, email: 'whatever@gmail.com' },
+                    { firstName: 'Blandine', lastName: 'Faivre', birthDate: new Date('1987-04-25'), balance: -2323.22, email: 'oufblandou@gmail.com' },
+                    { firstName: 'Francoise', lastName: 'Frere', birthDate: new Date('1955-08-27'), balance: 42343, email: 'raymondef@gmail.com' }
+                ]
+            }
+
+        ];
+
+        scope.rowCollection = [
+            { firstName: 'Laurent', lastName: 'Renard', birthDate: new Date('1987-05-21'), balance: 102, email: 'whatever@gmail.com' },
+            { firstName: 'Blandine', lastName: 'Faivre', birthDate: new Date('1987-04-25'), balance: -2323.22, email: 'oufblandou@gmail.com' },
+            { firstName: 'Francoise', lastName: 'Frere', birthDate: new Date('1955-08-27'), balance: 42343, email: 'raymondef@gmail.com' }
+        ];
+
+        scope.toggleGroup = function (group) {
+            group.visible = !group.visible;
+        }
+    }]);
+</script>
